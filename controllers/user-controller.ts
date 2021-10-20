@@ -12,7 +12,7 @@ const getAllUsers = async function(req, res) {
 
 const addReview = async function(req, res) {
     let user_id = res.locals.user.user_id;
-    let getMovie = {};
+    let getMovie:any = {};
     if (!req.body.movie_id || !req.body.review) {
         res.status(400).send('Parameters are missing or invalid');
     }

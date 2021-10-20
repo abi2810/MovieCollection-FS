@@ -30,36 +30,38 @@ const addMovie = async function(req, res) {
     if(checkMovie){
       res.status(405).send({message:"Movie Already Available"});
     }
-    let getGenre = await Genre.findOne({
-        where: {
-            id: req.body.genre_id,
-            is_active: 1
-        },
-        attributes: ['id', 'name']
-    });
-    let newMovie = await Movie.create({
-            name: req.body.name,
-            description: req.body.description,
-            user_id: user_id,
-            genre_id: req.body.genre_id,
-            genre_name: getGenre.name,
-            release_date: req.body.release_date
-        }).then(async function(movie) {
-            if (movie) {
-                res.status(200).json({
-                    details: movie
-                });
-            } else {
-                res.status(500).send({
-                    error: 'Movie not added'
-                });
-            }
-        })
-        .catch(error => {
-            res.status(500).send({
-                error: error
-            });
-        })
+    else{
+      let getGenre = await Genre.findOne({
+          where: {
+              id: req.body.genre_id,
+              is_active: 1
+          },
+          attributes: ['id', 'name']
+      });
+      let newMovie = await Movie.create({
+              name: req.body.name,
+              description: req.body.description,
+              user_id: user_id,
+              genre_id: req.body.genre_id,
+              genre_name: getGenre.name,
+              release_date: req.body.release_date
+          }).then(async function(movie: any) {
+              if (movie) {
+                  res.status(200).json({
+                      details: movie
+                  });
+              } else {
+                  res.status(500).send({
+                      error: 'Movie not added'
+                  });
+              }
+          })
+          .catch(error => {
+              res.status(500).send({
+                  error: error
+              });
+          })
+    }
 }
 
 const setVotings = async function(req, res) {
@@ -156,7 +158,7 @@ const setVotings = async function(req, res) {
 }
 
 const getMovieDetails = async function(req, res) {
-    let getMovie = {};
+    let getMovie: any = {};
     if (!req.params.movie_id) {
         res.status(400).send('Parameters are missing or invalid');
     }
@@ -180,7 +182,7 @@ const getMovieDetails = async function(req, res) {
 }
 
 const getRecomendedMovies = async function(req, res) {
-    let movieArr = [];
+    let movieArr: any = [];
     let page = 0;
     let limit = 5;
     let user_id = res.locals.user.user_id
@@ -188,7 +190,6 @@ const getRecomendedMovies = async function(req, res) {
     if (req.query.limit) {
         limit = Number(req.query.limit);
     }
-
     if (req.query.page) {
         page = ((req.query.page - 1) * limit);
     }
@@ -201,7 +202,7 @@ const getRecomendedMovies = async function(req, res) {
         attributes: ['genre_id']
     });
     let genre_id = getGenreIds.map(x => x.genre_id);
-    let getMoviesByGenreId = await Movie.findAll({
+    let getMoviesByGenreId:any = await Movie.findAll({
         where: {
             genre_id: genre_id,
             is_active: 1
@@ -229,20 +230,17 @@ const getAllMovies = async function(req, res) {
     if (req.query.limit) {
         limit = Number(req.query.limit);
     }
-
     if (req.query.page) {
         page = ((req.query.page - 1) * limit);
     }
-
     if (req.query.search) {
         search = req.query.search;
     }
-
     if (req.query.votes) {
         votes = Number(req.query.votes);
     }
 
-    let getMoviesByGenreId = await Movie.findAll({
+    let getMoviesByGenreId:any = await Movie.findAll({
         where: {
             is_active: 1,
             upvote: {

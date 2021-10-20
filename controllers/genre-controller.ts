@@ -1,32 +1,32 @@
 const express = require('express');
 const db = require('./../models');
-
 const Genre = db.genres;
 const UserGenre = db.user_genres;
 
 const newGenre = async function(req, res) {
     let checkGenre = await Genre.findOne({where:{name: req.body.name, is_active:1}});
     if(checkGenre){
-      res.status(405).send({message:"Genre Already Available"});
+      res.status(405).json({message:"Genre Already Available"});
     }
-    let createGenre = await Genre.create({
-        name: req.body.name
-    });
-    res.status(200).json({
-        success: true,
-        details: createGenre
-    });
+    else{
+      let createGenre = await Genre.create({
+          name: req.body.name
+      });
+      res.status(200).json({
+          success: true,
+          details: createGenre
+      });
+    }
 }
 
 const getAllGenre = async function(req, res) {
-    let getGenre = await Genre.findAll({
+    let getGenre: any = await Genre.findAll({
         where: {
             is_active: 1
         },
         attributes: ['id', 'name', 'is_active']
     });
     res.status(200).json({
-        success: true,
         details: getGenre
     });
 }
