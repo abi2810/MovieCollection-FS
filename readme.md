@@ -1,4 +1,4 @@
-Movie Database - NodeJs
+### Movie Database - NodeJs
 
 - It's a simple movie database that has very minimal details of movies and reviews. Anyone can add them as a user and access the full feature with their credentials.
 
@@ -9,13 +9,13 @@ Movie Database - NodeJs
 - Here, Users authentication performs with JWT.
 
 
-Prerequisite
+### Prerequisite
 
 This is a nodejs based project. You will need to have nodejs ready in your environment. https://nodejs.org/en/download/
 
 Using MySQL as a Database engine. https://dev.mysql.com/downloads/
 
-Instructions
+### Instructions
 
 Open your console and navigate to the folder. Run this before you start the game.
 
